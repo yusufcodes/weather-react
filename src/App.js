@@ -22,6 +22,8 @@ class App extends Component {
     weatherBtnClicked: false
   }
 
+  // Currently it shows / hides based on click of button
+  // To do: Just process whatever is entered into the search field
   displayWeatherCardToggle() {
     let oldState = {...this.state};
 
@@ -47,12 +49,16 @@ class App extends Component {
 
     // Update to use dynamic classes instead of duplicating the component
     let search = null;
+    search = <Search changed={(event) => this.searchToggle(event)}></Search>
+
+    /* conditional search 
     if (this.state.weatherBtnClicked) {
       search = <Search disabled changed={(event) => this.searchToggle(event)}></Search>
     }
     else {
       search = <Search changed={(event) => this.searchToggle(event)}></Search>
     }
+    */
 
     return (
       <Container fixed>

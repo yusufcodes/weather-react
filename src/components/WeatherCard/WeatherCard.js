@@ -1,28 +1,88 @@
 import React, { Component } from 'react';
 import classes from './WeatherCard.module.css';
+import config from '../../config';
+import axios from 'axios'
+
 
 class WeatherCard extends Component {
     state = {
+        dataLoaded: false,
         weatherData: {
-            city: 'Manchester',
-            temperature: '30deg',
-            forecast: 'Cloudy'
-        }
+            name: '', 
+            temp: '',
+            feels_like: '',
+            temp_max: '',
+            temp_min: ''
+        },
+        dataLoadError: false
     }
     componentDidMount() {
-        console.log('Component mounted');
+        console.log('WeatherCard: Component mounted');
+        const apiURL = `http://api.openweathermap.org/data/2.5/weather?q=${this.props.city}&units=metric&appid=a8459c10b997ade04d75fc6ef232b784`
+
+        axios.get(apiURL)
+        .then(response => {
+            console.log('Data loaded');
+            this.setState({dataLoaded: true});
+            let responseData = response.data;
+            let updatedState = this.state.weatherData;
+
+            updatedState = {
+                name: responseData.name,
+                temp: responseData.main.temp,
+                feels_like: responseData.main.feels_like,
+                temp_max: responseData.main.temp_max,
+                temp_min: responseData.main.temp_min
+            };
+
+            this.setState({weatherData: updatedState});
+
+        })
+        .catch(error => {
+            console.log(error);
+            this.setState({dataLoadError: true});
+        })
+
+        // response.data.:
+        /*
+        Main object
+        .temp
+        .feels_like
+        .temp_max
+        .temp_min
+        
+        */
+
+        // Take the user entered city and query the API
     }
 
     render() {
+        let weatherComponent = null;
+
+        if (this.state.dataLoaded)
+        {
+            let weatherDataValues = Object.values(this.state.weatherData)
+
+            weatherComponent = weatherDataValues.map(function(data) {
+                return <li>{data}</li>
+            })
+        }
+
+        else if (this.state.dataLoadError)
+        {
+        weatherComponent = <h4>Failed to load data for entered city: {this.props.city} - please try again!</h4>
+        }
+
+        else {
+            console.log('Loading data...');
+        }
+
+        
+
         // Conditional render here when fetching from API
         return (
             <div className={classes.WeatherCard}>
-                <h4>{this.props.city}</h4>
-                <ul>
-                    <li>{this.state.weatherData.temperature}</li>
-                    <li>{this.state.weatherData.forecast}</li>
-                </ul>
-                <span>Icon Here</span>
+                    {weatherComponent}
             </div>
         )
     }
