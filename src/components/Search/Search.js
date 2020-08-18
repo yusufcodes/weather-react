@@ -4,10 +4,6 @@ import classes from "./Search.module.css";
 import TextField from '@material-ui/core/TextField';
 
 class Search extends Component {
-    componentDidMount() {
-        window.removeEventListener("onChange", this.props.changed);
-    }
-
     render() {
         return (
             <div className={classes.Search}>

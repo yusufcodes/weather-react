@@ -25,10 +25,10 @@ class App extends Component {
   // Currently it shows / hides based on click of button
   // To do: Just process whatever is entered into the search field
   displayWeatherCardToggle() {
-    let oldState = {...this.state};
 
-    this.setState({displayWeatherCard: !oldState.displayWeatherCard,
-                    weatherBtnClicked: true});
+    let oldState = this.state.weatherBtnClicked;
+    this.setState({weatherBtnClicked: !oldState});
+
   }
 
   searchToggle(event) {
@@ -40,11 +40,17 @@ class App extends Component {
   render()
   {
     let weatherCard = null;
-    if (this.state.displayWeatherCard) {
+
+    if (this.state.weatherBtnClicked) {
+      console.log('Loading weather card...');
       weatherCard = 
       <WeatherCard
       city={this.state.userEnteredCity}
       ></WeatherCard>
+    }
+
+    else {
+      weatherCard = <h4>Please enter a city</h4>
     }
 
     // Update to use dynamic classes instead of duplicating the component

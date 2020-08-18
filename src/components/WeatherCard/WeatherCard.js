@@ -7,6 +7,7 @@ import axios from 'axios'
 class WeatherCard extends Component {
     state = {
         dataLoaded: false,
+        userEnteredCity: this.props.city,
         weatherData: {
             name: '', 
             temp: '',
@@ -18,7 +19,7 @@ class WeatherCard extends Component {
     }
     componentDidMount() {
         console.log('WeatherCard: Component mounted');
-        const apiURL = `http://api.openweathermap.org/data/2.5/weather?q=${this.props.city}&units=metric&appid=a8459c10b997ade04d75fc6ef232b784`
+        const apiURL = `http://api.openweathermap.org/data/2.5/weather?q=${this.state.userEnteredCity}&units=metric&appid=${config.MY_KEY}`
 
         axios.get(apiURL)
         .then(response => {
@@ -70,7 +71,7 @@ class WeatherCard extends Component {
 
         else if (this.state.dataLoadError)
         {
-        weatherComponent = <h4>Failed to load data for entered city: {this.props.city} - please try again!</h4>
+        weatherComponent = <h4>Failed to load data for entered city: {this.state.userEnteredCity} - please try again!</h4>
         }
 
         else {
