@@ -14,11 +14,11 @@ class WeatherCard extends Component {
         dataLoaded: false,
         userEnteredCity: this.props.city,
         weatherData: {
-            name: '', 
-            temp: '',
-            feels_like: '',
-            temp_max: '',
-            temp_min: ''
+            'Name': '', 
+            'Temperature': '',
+            'Temperature - Feels Like': '',
+            'Maximum Temperature': '',
+            'Minimum Temperature': ''
         },
         dataLoadError: false
     }
@@ -35,11 +35,11 @@ class WeatherCard extends Component {
             let updatedState = this.state.weatherData;
 
             updatedState = {
-                name: responseData.name,
-                temp: responseData.main.temp,
-                feels_like: responseData.main.feels_like,
-                temp_max: responseData.main.temp_max,
-                temp_min: responseData.main.temp_min
+                'Name': responseData.name,
+                'Temperature': responseData.main.temp,
+                'Temperature - Feels Like': responseData.main.feels_like,
+                'Maximum Temperature': responseData.main.temp_max,
+                'Minimum Temperature': responseData.main.temp_min
             };
 
             this.setState({weatherData: updatedState});
@@ -56,9 +56,16 @@ class WeatherCard extends Component {
 
         // Create list items for each piece of data loaded from the API
         if (this.state.dataLoaded) {
-            let weatherDataValues = Object.values(this.state.weatherData)
-            weatherComponent = weatherDataValues.map(function(data) {
-                return <li id={data}>{data}</li>
+            let weatherDataValues = Object.entries(this.state.weatherData);
+            weatherComponent = weatherDataValues.map(function(key, value) {
+                if (typeof key[1] === "number")
+                {
+                    return <li id={key}>{`${key[0]}: ${key[1]}°c`}</li>
+                }
+
+                else {
+                    return <li id={key}>{`${key[0]}: ${key[1]}`}</li>
+                }
             })
         }
 

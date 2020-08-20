@@ -80,7 +80,6 @@ class App extends Component {
       this.buttonValue = "Search";
     }
 
-
     return (
       <Container fixed>
         <h1>Weather App</h1>
