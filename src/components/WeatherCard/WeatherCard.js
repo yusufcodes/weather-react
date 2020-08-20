@@ -58,13 +58,12 @@ class WeatherCard extends Component {
         if (this.state.dataLoaded) {
             let weatherDataValues = Object.values(this.state.weatherData)
             weatherComponent = weatherDataValues.map(function(data) {
-                return <li>{data}</li>
+                return <li id={data}>{data}</li>
             })
         }
 
         else if (this.state.dataLoadError) {
-            let city = {...this.state.userEnteredCity};
-            weatherComponent = <h4>Failed to load data for entered city: {city} - please try again!</h4>
+            weatherComponent = <h4>Failed to load data for entered city - please try again!</h4>
         }
 
         else {

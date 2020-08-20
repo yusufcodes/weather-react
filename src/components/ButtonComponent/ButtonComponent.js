@@ -18,7 +18,7 @@ class ButtonComponent extends Component {
                 onClick={this.props.clicked}
                 variant="outlined"
                 color="primary">
-                Search
+                {this.props.label}
                 </Button>
             </div>
         )
